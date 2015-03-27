@@ -193,60 +193,6 @@ bool C_INIT_BD::Creation_BD()
         return false;
     }
 /*
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setHostName("tp");
-    db.setDatabaseName("customdb");
-    db.setUserName("tp");
-    db.setPassword("tp");
-    db.setDatabaseName("PATIENT.db");     //创建数据库
-    if(!db.open())
-    {
-        qDebug()<< "database is error";
-        //return;
-    }
-    else
-    {
-        qDebug()<<"database is ok";
-        //return;
-    }
-
-    QSqlQuery query(db);
-    //------------------------------------------------------创建一个表------------------------------------------------------
-    bool bsuccess = query.exec("create table TPatient ("
-                               "IdPatient int primary key, Nom varchar(20), Prenom varchar(20), Adress varchar(100), "
-                               "Ville varchar(20), CP varchar(20), Commentaire varchar(200), Tel int, "
-                               "DateConsultation date, DureeConsultation date, Priorite int )");
-    if(!bsuccess)
-    {
-        qDebug()<< "create table TPatient is error";
-    }
-
-    //------------------------------------------------------创建一个表------------------------------------------------------
-    bsuccess = query.exec("create table TType (IdType int primary key, Label varchar(40)");
-    if(!bsuccess)
-    {
-        qDebug()<< "create table TPatient is error";
-    }
-
-    //------------------------------------------------------创建一个表------------------------------------------------------
-    bsuccess = query.exec("create table TRessource ("
-                          "IdRessource int primary key, Nom varchar(20), Prenom varchar(20), IdType int,"
-                          "foreign key(IdType) references TType(IdType))");
-    if(!bsuccess)
-    {
-        qDebug()<< "create table TRessource is error";
-    }
-
-    //------------------------------------------------------创建一个表------------------------------------------------------
-    bsuccess = query.exec("create table TConsult ("
-                          "IdConsult int primary key,IdPatient int, IdRessource int, "
-                          "foreign key(IdPatient)references TPatient(IdPatient), "
-                          "foreign key(IdRessource)references TRessource(IdRessource))");
-    if(!bsuccess)
-    {
-        qDebug()<< "create table TConsult is error";
-    }
-
     //------------------------------------------------------创建一个表------------------------------------------------------
     bsuccess = query.exec("create table TCompte ("
                           "IdCompte int primary key, IdRessource int, Login varchar(20), MdP varchar(20),"
@@ -257,14 +203,7 @@ bool C_INIT_BD::Creation_BD()
     }else{
         qDebug()<<"table is created";
     }
-
-
-//    query.exec("insert into person values(101, 'Danny', 'Young')");
-//    query.exec("insert into person values(102, 'Christine', 'Holand')");
-//    query.exec("insert into person values(103, 'Lars', 'Gordon')");
-//    query.exec("insert into person values(104, 'Roberto', 'Robitaille')");
-//    query.exec("insert into person values(105, 'Maria', 'Papadopoulos')");
-//    query.exec("INSERT INTO persons VALUES ('xue','chao','langfang')");*/
+*/
 }
 
 
