@@ -15,6 +15,11 @@ public:
     explicit AddPatient(QWidget *parent = 0);
     ~AddPatient();
 
+private slots:
+    void on_pushButton_submit_clicked();
+
+    void on_pushButton_cencel_clicked();
+
 private:
     Ui::AddPatient *ui;
 };

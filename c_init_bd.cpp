@@ -180,9 +180,6 @@ bool C_INIT_BD::Creation_BD()
             qDebug() << "Insertion de données dans TType impossible !\n";
             return false;
         }
-
-        db.close();
-        db.removeDatabase("QSQLITE");
         return true;
 
     }
@@ -192,18 +189,10 @@ bool C_INIT_BD::Creation_BD()
         qDebug() << "Erreur à création de la base !\n";
         return false;
     }
-/*
-    //------------------------------------------------------创建一个表------------------------------------------------------
-    bsuccess = query.exec("create table TCompte ("
-                          "IdCompte int primary key, IdRessource int, Login varchar(20), MdP varchar(20),"
-                          "foreign key(IdRessource)references TRessource(IdRessource))");
-    if(!bsuccess)
-    {
-        qDebug()<< "create table TCompte is error";
-    }else{
-        qDebug()<<"table is created";
-    }
-*/
 }
 
 
+void C_INIT_BD::Close_BD(){
+   // db.close();
+   // db.removeDatabase("QSQLITE");
+}
