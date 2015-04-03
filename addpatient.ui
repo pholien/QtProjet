@@ -52,27 +52,6 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_prenom">
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-       </font>
-      </property>
-      <property name="text">
-       <string>Prénom:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_prenom">
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-       </font>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label_nom">
       <property name="font">
@@ -85,50 +64,29 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_prenom">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_prenom">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Prénom:</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QLineEdit" name="lineEdit_nom">
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-       </font>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_tel">
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-       </font>
-      </property>
-      <property name="text">
-       <string>Tel:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_adresse">
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-       </font>
-      </property>
-      <property name="text">
-       <string>Adresse:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_tel">
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-       </font>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="lineEdit_cp">
       <property name="font">
        <font>
         <family>微软雅黑</family>
@@ -145,6 +103,48 @@
       </property>
       <property name="text">
        <string>CP:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEdit_tel">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_adresse">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Adresse:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_tel">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Tel:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEdit_cp">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
       </property>
      </widget>
     </item>
@@ -208,18 +208,6 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_duree">
-      <property name="font">
-       <font>
-        <family>微软雅黑</family>
-       </font>
-      </property>
-      <property name="text">
-       <string>Durée:</string>
-      </property>
-     </widget>
-    </item>
     <item row="8" column="0">
      <widget class="QLabel" name="label_priorite">
       <property name="font">
@@ -232,10 +220,40 @@
       </property>
      </widget>
     </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_duree">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Durée:</string>
+      </property>
+     </widget>
+    </item>
     <item row="6" column="1">
      <widget class="QDateTimeEdit" name="dateTimeEdit_date"/>
     </item>
    </layout>
+   <zorder>lineEdit_priorite</zorder>
+   <zorder>lineEdit_duree</zorder>
+   <zorder>dateTimeEdit_date</zorder>
+   <zorder>lineEdit_adresse</zorder>
+   <zorder>lineEdit_cp</zorder>
+   <zorder>lineEdit_ville</zorder>
+   <zorder>lineEdit_tel</zorder>
+   <zorder>lineEdit_prenom</zorder>
+   <zorder>lineEdit_nom</zorder>
+   <zorder>label_prenom</zorder>
+   <zorder>label_nom</zorder>
+   <zorder>label_tel</zorder>
+   <zorder>label_adresse</zorder>
+   <zorder>label_cp</zorder>
+   <zorder>label_ville</zorder>
+   <zorder>label_date</zorder>
+   <zorder>label_duree</zorder>
+   <zorder>label_priorite</zorder>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
@@ -243,7 +261,7 @@
      <x>290</x>
      <y>10</y>
      <width>91</width>
-     <height>171</height>
+     <height>151</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -252,7 +270,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>100</height>
+        <height>80</height>
        </size>
       </property>
       <property name="baseSize">
@@ -297,7 +315,25 @@
     </item>
    </layout>
   </widget>
+  <zorder>textEdit_commentaire</zorder>
+  <zorder>label_commentaire</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_nom</tabstop>
+  <tabstop>lineEdit_prenom</tabstop>
+  <tabstop>lineEdit_tel</tabstop>
+  <tabstop>lineEdit_ville</tabstop>
+  <tabstop>lineEdit_cp</tabstop>
+  <tabstop>lineEdit_adresse</tabstop>
+  <tabstop>dateTimeEdit_date</tabstop>
+  <tabstop>lineEdit_duree</tabstop>
+  <tabstop>lineEdit_priorite</tabstop>
+  <tabstop>textEdit_commentaire</tabstop>
+  <tabstop>pushButton_submit</tabstop>
+  <tabstop>pushButton_cencel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

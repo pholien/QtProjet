@@ -2,6 +2,9 @@
 #define ADDPATIENT_H
 
 #include <QDialog>
+#include "c_init_bd.h"
+#include <QRegExp>
+#include <QRegExpValidator>
 
 namespace Ui {
 class AddPatient;

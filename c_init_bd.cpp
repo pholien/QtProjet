@@ -1,9 +1,4 @@
 #include "c_init_bd.h"
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
-#include <QFile>
 
 C_INIT_BD::C_INIT_BD()
 {
@@ -12,13 +7,21 @@ C_INIT_BD::C_INIT_BD()
 
 C_INIT_BD::~C_INIT_BD()
 {
-
+    if(mydb.isOpen())
+    {
+        mydb.close();
+        mydb.removeDatabase("QSQLITE");
+    }
 }
 
 bool C_INIT_BD::Creation_BD()
 {
     bool b_test;
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlDatabase db;
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+      db = QSqlDatabase::database("qt_sql_default_connection");
+    else
+      db = QSqlDatabase::addDatabase("QSQLITE");
 
     if(db.isValid())
     {
@@ -180,6 +183,8 @@ bool C_INIT_BD::Creation_BD()
             qDebug() << "Insertion de données dans TType impossible !\n";
             return false;
         }
+       db.close();
+       db.removeDatabase("QSQLITE");
         return true;
 
     }
@@ -191,8 +196,42 @@ bool C_INIT_BD::Creation_BD()
     }
 }
 
+bool C_INIT_BD::Join_BD()
+{
+
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+      mydb = QSqlDatabase::database("qt_sql_default_connection");
+    else
+      mydb = QSqlDatabase::addDatabase("QSQLITE");
+
+    if(mydb.isValid())
+    {
+        mydb.setDatabaseName("base_tmp.sqli");
+        mydb.open();
+        if(!mydb.isOpen())
+        {
+            qDebug() << mydb.lastError().text();
+            qDebug() << "Erreur à louverture de la base !\n";
+            return false;
+        }
+        return true;
+    }
+    else
+    {
+        qDebug() << mydb.lastError().text();
+        qDebug() << "Erreur à création de la base !\n";
+        return false;
+    }
+}
 
 void C_INIT_BD::Close_BD(){
-   // db.close();
-   // db.removeDatabase("QSQLITE");
+    if(!mydb.isOpen())
+    {
+        qDebug() << "ERReur: can't fermer la base, parce que la base est déja fermé!";
+    }
+    else
+    {
+        mydb.close();
+        mydb.removeDatabase("QSQLITE");
+    }
 }

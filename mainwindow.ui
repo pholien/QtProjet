@@ -66,21 +66,6 @@
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLineEdit" name="lineEdit_search">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>微软雅黑</family>
-          </font>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="btn_search">
          <property name="minimumSize">
@@ -99,8 +84,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QTextEdit" name="textEdit_resultat">
+       <item row="0" column="0">
+        <widget class="QLineEdit" name="lineEdit_search">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <family>微软雅黑</family>
@@ -108,10 +99,11 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QTableWidget" name="tableWidget_resultat"/>
+       </item>
       </layout>
      </widget>
-     <zorder>layoutWidget</zorder>
-     <zorder>label</zorder>
     </widget>
     <widget class="QWidget" name="page_2">
      <property name="geometry">

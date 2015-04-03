@@ -3,14 +3,12 @@
 
 #include <QMainWindow>
 #include <QApplication>
-
- #include <QTextEdit>
-
- #include <QStatusBar>
-
- #include <QLabel>
- #include <QProgressBar>
+#include <QTextEdit>
+#include <QStatusBar>
+#include <QLabel>
+#include <QProgressBar>
 #include "c_init_bd.h"
+#include "addpatient.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,7 +34,6 @@ private slots:
     void on_btn_search_clicked();
 
 private:
-    C_INIT_BD bd;
     Ui::MainWindow *ui;
 };
 
