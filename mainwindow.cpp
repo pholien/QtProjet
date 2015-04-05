@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +18,32 @@ MainWindow::MainWindow(QWidget *parent) :
     mode->setToolTip( tr("The current working mode.") );
     statusBar->addPermanentWidget( mode );
     statusBar->showMessage( tr("Connexion"),4000);
+
+    connect(ui->tableWidget_resultat,SIGNAL(itemChanged(QTableWidgetItem*)),this,SLOT(modifierPatient(QTableWidgetItem*)));
+
+    ui->tableWidget_resultat->setColumnCount(7);//设置列数
+    ui->tableWidget_resultat->setColumnWidth(0,90);
+    ui->tableWidget_resultat->setColumnWidth(1,200);
+    ui->tableWidget_resultat->setColumnWidth(2,200);
+    ui->tableWidget_resultat->setColumnWidth(3,200);
+    ui->tableWidget_resultat->setColumnWidth(4,100);
+    ui->tableWidget_resultat->setColumnWidth(5,70);
+    ui->tableWidget_resultat->setColumnWidth(6,70);
+//    ui->tableWidget_resultat->setRowCount(5);//设置行数
+    ui->tableWidget_resultat->setShowGrid(true);//显示表格线
+    ui->tableWidget_resultat->setAlternatingRowColors(true);//设置隔行颜色，即一灰一白
+//    ui->tableWidget_resultat->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//设置平分每列
+//    ui->tableWidget_resultat->horizontalHeader()->setStretchLastSection(QHeaderView::Stretch);//设置最后一列补齐表格
+    ui->tableWidget_resultat->setSelectionBehavior(QAbstractItemView::SelectRows);//设置整行选择
+    ui->tableWidget_resultat->setSelectionMode(QAbstractItemView::SingleSelection);//设置只能选中一行
+//    ui->tableWidget_resultat->setEditTriggers(QAbstractItemView::NoEditTriggers);   //设置每行内容不可更改
+    ui->tableWidget_resultat->verticalHeader()->setHidden(true); //去掉每行的行号
+    /*设置表头*/
+    QStringList header;
+    header<<"Identification"<<"Nom"<<"Prénom"<<"Date Début"<<"Durée";
+    ui->tableWidget_resultat->setHorizontalHeaderLabels(header);
+    ui->tableWidget_resultat->horizontalHeader()->setSectionsMovable(true);//设置列可移动
+//    ui->tableWidget_resultat->
 
 
 }
@@ -53,23 +79,38 @@ void MainWindow::on_btn_search_clicked()
     C_INIT_BD bd;
     bd.Join_BD();
     QSqlQuery query;
-    if(ui->lineEdit_search->text()==""){
-        ui->textEdit_resultat->clear();
+
+    if(ui->lineEdit_search->text()=="")
+    {
         query.exec("select * from TPatient");
-        while (query.next()) {
-            QString name = query.value(0).toString()+" "+ query.value(1).toString()+" "+ query.value(2).toString()
-                        +" "+ query.value(3).toString()
-                        +" "+ query.value(4).toString()
-                        +" "+ query.value(5).toString()
-                        +" "+ query.value(6).toString()
-                        +" "+ query.value(7).toString()
-                        +" "+ query.value(8).toString();
-            ui->textEdit_resultat->append(name);
+        for(int i=0; query.next(); i++)
+        {
+            ui->tableWidget_resultat->removeRow(i);
+            ui->tableWidget_resultat->insertRow(i);
+            ui->tableWidget_resultat->setItem( i, 0, new QTableWidgetItem(query.value(0).toString()));
+            ui->tableWidget_resultat->setItem( i, 1, new QTableWidgetItem(query.value(1).toString()));
+            ui->tableWidget_resultat->setItem( i, 2, new QTableWidgetItem(query.value(2).toString()));
+            ui->tableWidget_resultat->setItem( i, 3, new QTableWidgetItem(query.value(8).toString()));
+            ui->tableWidget_resultat->setItem( i, 4, new QTableWidgetItem(query.value(9).toString()+" mn"));
+
+            QPushButton *modifier=new QPushButton();
+            modifier->setText("Modifier");
+            //this->connect(modifier,SIGNAL(clicked()),this, SLOT(modifierPatient()));
+            ui->tableWidget_resultat->setCellWidget(i,5,modifier);
+
+            QPushButton *supprimer=new QPushButton();
+            supprimer->setText("Supprimer");
+            ui->tableWidget_resultat->setCellWidget(i,6,supprimer);
         }
-     }else{
-        ui->textEdit_resultat->clear();
-        ui->textEdit_resultat->append("Resultat:\n");
+     }
+    else
+    {
+
 
     }
     bd.Close_BD();
+}
+
+void MainWindow:: modifierPatient(QTableWidgetItem * item){
+    qDebug()<<item->text();
 }
