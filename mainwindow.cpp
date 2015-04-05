@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     statusBar->addPermanentWidget( mode );
     statusBar->showMessage( tr("Connexion"),4000);
 
-    connect(ui->tableWidget_resultat,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(modifierPatient(QModelIndex)));
+    connect(ui->tableWidget_resultat,SIGNAL(clicked(QModelIndex)),this,SLOT(modifierPatient(QModelIndex)));
 
     ui->tableWidget_resultat->setColumnCount(7);//设置列数
     ui->tableWidget_resultat->setColumnWidth(0,90);
@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_resultat->setColumnWidth(4,100);
     ui->tableWidget_resultat->setColumnWidth(5,70);
     ui->tableWidget_resultat->setColumnWidth(6,70);
+
 //    ui->tableWidget_resultat->setRowCount(5);//设置行数
     ui->tableWidget_resultat->setShowGrid(true);//显示表格线
     ui->tableWidget_resultat->setAlternatingRowColors(true);//设置隔行颜色，即一灰一白
@@ -41,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_resultat->verticalHeader()->setHidden(true); //去掉每行的行号
     /*设置表头*/
     QStringList header;
-    header<<"Identification"<<"Nom"<<"Prénom"<<"Date Début"<<"Durée";
+    header<<"Identification"<<"Nom"<<"Prénom"<<"Date Début"<<"Durée"<<"Modifier"<<"Supprimer";
     ui->tableWidget_resultat->setHorizontalHeaderLabels(header);
 //    ui->tableWidget_resultat->
 
@@ -92,12 +93,12 @@ void MainWindow::on_btn_search_clicked()
      }
     else
     {
-        QString sql="select * from TPatient where Nom='"+str+"' or id='"+str+"' or Prenom='"+str+"'";
+        QString sql="select * from TPatient where Nom='"+str+"' or id='"+str+"' or Prenom='"+str+"' or DateConsultation='"+str+"'";
         query.exec(sql);
 //        qDebug()<<sql<<" "<<query.value(0).toString();
     }
     int i=0;
-    for(i; query.next(); i++)
+    for(; query.next(); i++)
     {
         ui->tableWidget_resultat->insertRow(i);
         ui->tableWidget_resultat->setItem( i, 0, new QTableWidgetItem(query.value(0).toString()));
@@ -106,14 +107,24 @@ void MainWindow::on_btn_search_clicked()
         ui->tableWidget_resultat->setItem( i, 3, new QTableWidgetItem(query.value(8).toString()));
         ui->tableWidget_resultat->setItem( i, 4, new QTableWidgetItem(query.value(9).toString()+" mn"));
 
-        QPushButton *modifier=new QPushButton();
+        QLabel *modifier = new QLabel();
         modifier->setText("Modifier");
-//        this->connect(modifier,SIGNAL(clicked()),this, SLOT(modifierPatient()));
+        modifier->setCursor(Qt::PointingHandCursor);
         ui->tableWidget_resultat->setCellWidget(i,5,modifier);
 
-        QPushButton *supprimer=new QPushButton();
-        supprimer->setText("Supprimer");
+
+        QLabel *supprimer=new QLabel();
+        supprimer->setText("supprimer");
+        supprimer->setCursor(Qt::PointingHandCursor);
         ui->tableWidget_resultat->setCellWidget(i,6,supprimer);
+
+//        QPushButton *modifier=new QPushButton();
+//        modifier->setText("Modifier");
+//        ui->tableWidget_resultat->setCellWidget(i,5,modifier);
+
+//        QPushButton *supprimer=new QPushButton();
+//        supprimer->setText("Supprimer");
+//        ui->tableWidget_resultat->setCellWidget(i,6,supprimer);
     }
     if(i==0){
         ui->tableWidget_resultat->insertRow(0);
@@ -123,5 +134,6 @@ void MainWindow::on_btn_search_clicked()
 }
 
 void MainWindow:: modifierPatient(QModelIndex index){
-   qDebug()<<index.row();
+   if(index.column()>=5)
+    qDebug()<<index.row();
 }

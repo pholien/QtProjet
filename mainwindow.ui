@@ -59,10 +59,10 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>10</y>
-        <width>941</width>
-        <height>431</height>
+        <x>10</x>
+        <y>0</y>
+        <width>981</width>
+        <height>451</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -110,8 +110,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>1001</width>
-       <height>459</height>
+       <width>98</width>
+       <height>28</height>
       </rect>
      </property>
      <attribute name="label">
