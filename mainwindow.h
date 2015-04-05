@@ -8,7 +8,9 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QTableWidgetItem>
+#include <QPushButton>
 
+#include "propre.h"
 #include "c_init_bd.h"
 #include "addpatient.h"
 
@@ -35,7 +37,7 @@ private slots:
 
     void on_btn_search_clicked();
 
-    void modifierPatient(QTableWidgetItem * item);
+    void modifierPatient(QModelIndex);
 
 private:
     Ui::MainWindow *ui;

@@ -17,16 +17,19 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     login.cpp \
     addpatient.cpp \
-    c_init_bd.cpp
+    c_init_bd.cpp \
+    propre.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
     addpatient.h \
-    c_init_bd.h
+    c_init_bd.h \
+    propre.h
 
 FORMS    += mainwindow.ui \
     login.ui \
-    addpatient.ui
+    addpatient.ui \
+    propre.ui
 
 RESOURCES += \
     resource.qrc
