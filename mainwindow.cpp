@@ -20,7 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     statusBar->showMessage( tr("Connexion"),4000);
 
     connect(ui->tableWidget_resultat,SIGNAL(clicked(QModelIndex)),this,SLOT(modifierPatient(QModelIndex)));
-
+    connect(ui->lineEdit_search,SIGNAL(editingFinished()),this,SLOT(on_btn_search_clicked()));
+    ui->lineEdit_search->setFocus();
     ui->tableWidget_resultat->setColumnCount(7);//设置列数
     ui->tableWidget_resultat->setColumnWidth(0,90);
     ui->tableWidget_resultat->setColumnWidth(1,200);
@@ -44,7 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList header;
     header<<"Identification"<<"Nom"<<"Prénom"<<"Date Début"<<"Durée"<<"Modifier"<<"Supprimer";
     ui->tableWidget_resultat->setHorizontalHeaderLabels(header);
-//    ui->tableWidget_resultat->
+
+    this->on_btn_search_clicked();
 
 }
 
@@ -56,7 +58,11 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionPatient_triggered()
 {
     AddPatient d;
-    d.exec();
+    d.setWindowTitle("Ajouter");
+    if(d.exec()==QDialog::Accepted)
+    {
+        this->on_btn_search_clicked();
+    }
 }
 
 void MainWindow::on_actionPersonnelSoin_triggered()
@@ -71,8 +77,7 @@ void MainWindow::on_actionQuitter_triggered()
 
 void MainWindow::on_actionA_propos_triggered()
 {
-    Propre  d;
-    d.exec();
+    QMessageBox::about(NULL, "About", "Gestion Patient \n Version 0.1 ");
 }
 
 void MainWindow::on_btn_search_clicked()
@@ -87,15 +92,25 @@ void MainWindow::on_btn_search_clicked()
     }
 
     QString str=ui->lineEdit_search->text();
+    bool boo;
     if(str.compare("")==0)
     {
-        query.exec("select * from TPatient");
+        boo=query.exec("select * from TPatient");
+        if(!boo)
+        {
+            qDebug() << query.lastError().text();
+            qDebug() << "record in TPatient non delete !\n";
+        }
      }
     else
     {
-        QString sql="select * from TPatient where Nom='"+str+"' or id='"+str+"' or Prenom='"+str+"' or DateConsultation='"+str+"'";
-        query.exec(sql);
-//        qDebug()<<sql<<" "<<query.value(0).toString();
+        QString sql="select * from TPatient where Nom='"+str+"' or Id='"+str+"' or Prenom='"+str+"' or DateConsultation='"+str+"'";
+        boo=query.exec(sql);
+        if(!boo)
+        {
+            qDebug() << query.lastError().text();
+        }
+
     }
     int i=0;
     for(; query.next(); i++)
@@ -108,23 +123,22 @@ void MainWindow::on_btn_search_clicked()
         ui->tableWidget_resultat->setItem( i, 4, new QTableWidgetItem(query.value(9).toString()+" mn"));
 
         QLabel *modifier = new QLabel();
-        modifier->setText("Modifier");
+        modifier->setText("  Modifier");
         modifier->setCursor(Qt::PointingHandCursor);
+        QPalette pa;
+        pa.setColor(QPalette::Text,Qt::blue);
+        modifier->setPalette(pa);
         ui->tableWidget_resultat->setCellWidget(i,5,modifier);
 
 
         QLabel *supprimer=new QLabel();
-        supprimer->setText("supprimer");
+        supprimer->setText(" Supprimer");
         supprimer->setCursor(Qt::PointingHandCursor);
+        QPalette pa2;
+        pa2.setColor(QPalette::Text,Qt::red);
+        supprimer->setPalette(pa2);
         ui->tableWidget_resultat->setCellWidget(i,6,supprimer);
 
-//        QPushButton *modifier=new QPushButton();
-//        modifier->setText("Modifier");
-//        ui->tableWidget_resultat->setCellWidget(i,5,modifier);
-
-//        QPushButton *supprimer=new QPushButton();
-//        supprimer->setText("Supprimer");
-//        ui->tableWidget_resultat->setCellWidget(i,6,supprimer);
     }
     if(i==0){
         ui->tableWidget_resultat->insertRow(0);
@@ -134,6 +148,32 @@ void MainWindow::on_btn_search_clicked()
 }
 
 void MainWindow:: modifierPatient(QModelIndex index){
-   if(index.column()>=5)
-    qDebug()<<index.row();
+    QString id=ui->tableWidget_resultat->item(index.row(),0)->text();
+   if(index.column()==5){
+       AddPatient d(0,id);
+       d.setWindowTitle("Modifier");
+       if(d.exec()==QDialog::Accepted)
+       {
+           this->on_btn_search_clicked();
+       }
+   }
+   else if(index.column()==6)
+   {
+        QMessageBox::StandardButton rb=QMessageBox::warning(this,tr("Warning"),("Do you want to delete this record?"),QMessageBox::Ok|QMessageBox::Cancel);
+        if (rb==QMessageBox::Ok)
+        {
+            C_INIT_BD bd;
+            bd.Join_BD();
+            QSqlQuery query;
+            bool boo;
+            boo=query.exec("delete from TPatient where id='"+id+"'");
+            if(!boo)
+            {
+                qDebug() << query.lastError().text();
+                qDebug() << "record in TPatient non delete !\n";
+            }
+            bd.Close_BD();
+            this->on_btn_search_clicked();
+        }
+   }
 }

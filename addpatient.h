@@ -5,6 +5,7 @@
 #include "c_init_bd.h"
 #include <QRegExp>
 #include <QRegExpValidator>
+#include <QModelIndex>
 
 namespace Ui {
 class AddPatient;
@@ -15,7 +16,7 @@ class AddPatient : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddPatient(QWidget *parent = 0);
+    explicit AddPatient(QWidget *parent = 0, QString info="");
     ~AddPatient();
 
 private slots:
@@ -25,6 +26,8 @@ private slots:
 
 private:
     Ui::AddPatient *ui;
+    void setInfo(QString info);
+    QString modID;
 };
 
 #endif // ADDPATIENT_H

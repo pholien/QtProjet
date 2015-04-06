@@ -9,8 +9,8 @@
 #include <QProgressBar>
 #include <QTableWidgetItem>
 #include <QPushButton>
+#include <QMessageBox>
 
-#include "propre.h"
 #include "c_init_bd.h"
 #include "addpatient.h"
 
