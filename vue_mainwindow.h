@@ -13,8 +13,9 @@
 #include <QList>
 
 #include "c_init_bd.h"
-#include "addpatient.h"
-#include "addpersonnelsoin.h"
+#include "vue_patientdlg.h"
+#include "vue_ressourcedlg.h"
+#include "vue_aboutdlg.h"
 
 namespace Ui {
 class MainWindow;

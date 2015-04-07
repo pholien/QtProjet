@@ -1,11 +1,13 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
+#include "vue_mainwindow.h"
+#include "ui_mainwindowdlg.h"
+#include "controleur_patient.h"
+#include "controleur_ressource.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    setWindowFlags(Qt::WindowCloseButtonHint);
     ui->setupUi(this);
     QStatusBar *statusBar = this->statusBar();
     QLabel *mode = new QLabel( tr("  Time  ") );
@@ -28,8 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::afficherRess(){
     ui->treeWidget_ress->clear();
     QList<QTreeWidgetItem *> rootList;
-    C_INIT_BD bd;
-    bd.Join_BD();
+
     QSqlQuery query,query2;
     QString sql="select * from TType";
     query.exec(sql);
@@ -42,7 +43,6 @@ void MainWindow::afficherRess(){
              root->addChild(new QTreeWidgetItem(root,QStringList(query2.value(1).toString())));
          }
     }
-    bd.Close_BD();
     ui->treeWidget_ress->insertTopLevelItems(0,rootList);
     ui->treeWidget_ress->expandAll();
 }
@@ -84,7 +84,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionPatient_triggered()
 {
-    AddPatient d;
+    PatientDlg d;
     d.setWindowTitle("Ajouter");
     if(d.exec()==QDialog::Accepted)
     {
@@ -94,7 +94,7 @@ void MainWindow::on_actionPatient_triggered()
 
 void MainWindow::on_actionPersonnelSoin_triggered()
 {
-    AddPersonnelSoin d;
+    RessourceDlg d;
     d.setWindowTitle("Ajouter");
     if(d.exec()==QDialog::Accepted)
     {
@@ -109,13 +109,12 @@ void MainWindow::on_actionQuitter_triggered()
 
 void MainWindow::on_actionA_propos_triggered()
 {
-    QMessageBox::about(NULL, "About", "Gestion Patient \n Version 0.1 ");
+    AboutDlg dlg;
+    dlg.exec();
 }
 
 void MainWindow::on_btn_search_clicked()
 {
-    C_INIT_BD bd;
-    bd.Join_BD();
     QSqlQuery query;
     ui->statusBar->showMessage( tr("Search Button clicked"),2000);
     int numC=ui->tableWidget_resultat->rowCount();
@@ -176,14 +175,13 @@ void MainWindow::on_btn_search_clicked()
         ui->tableWidget_resultat->insertRow(0);
         ui->tableWidget_resultat->setItem(0, 0, new QTableWidgetItem("No record"));
     }
-    bd.Close_BD();
 }
 
 void MainWindow:: modifierPatient(QModelIndex index)
 {
    QString id=ui->tableWidget_resultat->item(index.row(),0)->text();
    if(index.column()==5){
-       AddPatient d(0,id);
+       PatientDlg d(0,id);
        d.setWindowTitle("Modifier");
        if(d.exec()==QDialog::Accepted)
        {
@@ -195,24 +193,10 @@ void MainWindow:: modifierPatient(QModelIndex index)
         QMessageBox::StandardButton rb=QMessageBox::warning(this,tr("Warning"),("Do you want to delete this record?"),QMessageBox::Ok|QMessageBox::Cancel);
         if (rb==QMessageBox::Ok)
         {
-            C_INIT_BD bd;
-            bd.Join_BD();
-            QSqlQuery query;
-            bool boo;
-            boo=query.exec("delete from TPatient where id='"+id+"'");
-            if(!boo)
-            {
-                qDebug() << query.lastError().text();
-                qDebug() << "record in TPatient non delete !\n";
-            }
-            boo=query.exec("delet from TConsult where IdPatient='"+id+"'");
-            if(!boo)
-            {
-                qDebug() << query.lastError().text();
-                qDebug() << "record in TConsult non delete !\n";
-            }
-            bd.Close_BD();
-            this->on_btn_search_clicked();
+            if(DeletePatient(id)==true)
+                this->on_btn_search_clicked();
+            else
+                QMessageBox::warning(this,tr("Warning"),("Con't delete"),QMessageBox::Ok);
         }
    }
 }
@@ -221,7 +205,7 @@ void MainWindow::on_pushButton_ModRess_clicked()
 {
     QString id=this->getRessItemId();
     if(id=="")return;
-    AddPersonnelSoin dlg(0,id);
+    RessourceDlg dlg(0,id);
     dlg.setWindowTitle("Modifier");
     if(dlg.exec()==QDialog::Accepted)
     {
@@ -236,31 +220,10 @@ void MainWindow::on_pushButton_SuppRess_clicked()
     QMessageBox::StandardButton rb=QMessageBox::warning(this,tr("Warning"),("Do you want to delete this ressource?"),QMessageBox::Ok|QMessageBox::Cancel);
     if (rb==QMessageBox::Ok)
     {
-        C_INIT_BD bd;
-        bd.Join_BD();
-        QSqlQuery query;
-
-        bool boo;
-        boo=query.exec("delete from TRessource where Id='"+id+"'");
-        if(!boo)
-        {
-            qDebug() << query.lastError().text();
-            qDebug() << "record in TPatient non delete !\n";
-        }
-        boo=query.exec("delete from TCompte where IdRessource='"+id+"'");
-        if(!boo)
-        {
-            qDebug() << query.lastError().text();
-            qDebug() << "record in TPatient non delete !\n";
-        }
-        boo=query.exec("delete from TConsult where IdRessource='"+id+"'");
-        if(!boo)
-        {
-            qDebug() << query.lastError().text();
-            qDebug() << "record in TPatient non delete !\n";
-        }
-        bd.Close_BD();
-        this->afficherRess();
+        if(DeleteRessource(id)==true)
+            this->afficherRess();
+        else
+            QMessageBox::warning(this,tr("Warning"),("Con't delete"),QMessageBox::Ok);
     }
 }
 
@@ -270,13 +233,10 @@ QString MainWindow::getRessItemId()//注意，此处查ID无法解决姓名重�
     if(ui->treeWidget_ress->currentItem()==NULL || ui->treeWidget_ress->currentItem()->parent()==NULL){
         QMessageBox::warning(this,tr("Warning"),("Choisir une personnel de soins svp!!!"),QMessageBox::Ok);
     }else{
-        C_INIT_BD bd;
-        bd.Join_BD();
         QSqlQuery query;
         query.exec("select Id from TRessource where Nom='"+ui->treeWidget_ress->currentItem()->text(0)+"'");
         query.first();
         id=query.value(0).toString();
-        bd.Close_BD();
     }
     return id;
 }

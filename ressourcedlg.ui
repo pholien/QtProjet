@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddPersonnelSoin</class>
- <widget class="QDialog" name="AddPersonnelSoin">
+ <class>RessourceDlg</class>
+ <widget class="QDialog" name="RessourceDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -9,6 +9,18 @@
     <width>237</width>
     <height>247</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>237</width>
+    <height>247</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>237</width>
+    <height>247</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>

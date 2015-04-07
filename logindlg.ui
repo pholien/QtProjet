@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
-    <height>247</height>
+    <width>595</width>
+    <height>220</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QPushButton" name="OKPushButton">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>190</y>
-     <width>101</width>
+     <x>300</x>
+     <y>160</y>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
@@ -34,9 +34,9 @@
   <widget class="QPushButton" name="NOPushButton">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>190</y>
-     <width>101</width>
+     <x>440</x>
+     <y>160</y>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
@@ -49,37 +49,13 @@
     <string>Cannel</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>271</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-     <pointsize>16</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string> BIENVENU</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>60</y>
-     <width>271</width>
-     <height>121</height>
+     <x>300</x>
+     <y>30</y>
+     <width>261</width>
+     <height>101</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -87,7 +63,8 @@
      <widget class="QLineEdit" name="pwdLineEdit">
       <property name="font">
        <font>
-        <family>Roboto</family>
+        <family>微软雅黑</family>
+        <pointsize>10</pointsize>
        </font>
       </property>
      </widget>
@@ -121,11 +98,61 @@
       <property name="font">
        <font>
         <family>微软雅黑</family>
+        <pointsize>10</pointsize>
        </font>
       </property>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>261</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string/>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>260</width>
+      <height>210</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>260</width>
+      <height>210</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>260</width>
+      <height>210</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>26</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string> BIENVENU</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
  </widget>
  <tabstops>

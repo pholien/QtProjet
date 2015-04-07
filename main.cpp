@@ -1,13 +1,13 @@
 #include <QApplication>
-#include "login.h"
-#include "mainwindow.h"
+#include "vue_logindlg.h"
+#include "vue_mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-//    C_INIT_BD bd;
-//    bd.Creation_BD();
+    C_INIT_BD bd;
+    bd.Creation_BD();
 
     Login dlg;
     MainWindow w;
@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
         w.show();
         return a.exec();
     }
-    else
+    else{
+        bd.Close_BD();
         return 0;
+    }
 }

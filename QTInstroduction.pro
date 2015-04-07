@@ -14,22 +14,37 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    mainwindow.cpp \
-    login.cpp \
-    addpatient.cpp \
     c_init_bd.cpp \
-    addpersonnelsoin.cpp
+    modele_patient.cpp \
+    modele_ressource.cpp \
+    controleur_ressource.cpp \
+    controleur_patient.cpp \
+    vue_mainwindow.cpp \
+    vue_patientdlg.cpp \
+    vue_logindlg.cpp \
+    vue_ressourcedlg.cpp \
+    controleur_login.cpp \
+    vue_aboutdlg.cpp
 
-HEADERS  += mainwindow.h \
-    login.h \
-    addpatient.h \
+HEADERS  += \
     c_init_bd.h \
-    addpersonnelsoin.h
+    modele_patient.h \
+    modele_ressource.h \
+    controleur_ressource.h \
+    controleur_patient.h \
+    vue_mainwindow.h \
+    vue_patientdlg.h \
+    vue_logindlg.h \
+    vue_ressourcedlg.h \
+    controleur_login.h \
+    vue_aboutdlg.h
 
-FORMS    += mainwindow.ui \
-    login.ui \
-    addpatient.ui \
-    addpersonnelsoin.ui
+FORMS    += \
+    patientdlg.ui \
+    logindlg.ui \
+    mainwindowdlg.ui \
+    ressourcedlg.ui \
+    aboutdlg.ui
 
 RESOURCES += \
     resource.qrc

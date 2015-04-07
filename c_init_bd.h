@@ -9,12 +9,12 @@
 
 class C_INIT_BD
 {
-public:
+private:
     QSqlDatabase mydb;
+public:
     C_INIT_BD();
     ~C_INIT_BD();
-    static bool Creation_BD();
-    bool Join_BD();
+    bool Creation_BD();
     void Close_BD();
 };
 

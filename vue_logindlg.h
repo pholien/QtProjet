@@ -2,7 +2,6 @@
 #define LOGIN_H
 
 #include <QDialog>
-#include "ui_login.h"
 #include <QMessageBox>
 #include "c_init_bd.h"
 
