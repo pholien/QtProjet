@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    C_INIT_BD bd;
-//    bd.Creation_BD();
-
     QStatusBar *statusBar = this->statusBar();
     QLabel *mode = new QLabel( tr("  Time  ") );
     mode->setMinimumSize( mode->sizeHint() );
@@ -17,24 +14,57 @@ MainWindow::MainWindow(QWidget *parent) :
     mode->setText( tr("Ready") );
     mode->setToolTip( tr("The current working mode.") );
     statusBar->addPermanentWidget( mode );
-    statusBar->showMessage( tr("Connexion"),4000);
 
     connect(ui->tableWidget_resultat,SIGNAL(clicked(QModelIndex)),this,SLOT(modifierPatient(QModelIndex)));
     connect(ui->lineEdit_search,SIGNAL(editingFinished()),this,SLOT(on_btn_search_clicked()));
+
+    this->setWidget();
+    this->afficherRess();
+    this->on_btn_search_clicked();
+
+    statusBar->showMessage( tr("Ready!!"));
+}
+
+void MainWindow::afficherRess(){
+    ui->treeWidget_ress->clear();
+    QList<QTreeWidgetItem *> rootList;
+    C_INIT_BD bd;
+    bd.Join_BD();
+    QSqlQuery query,query2;
+    QString sql="select * from TType";
+    query.exec(sql);
+    while(query.next()){
+         QTreeWidgetItem *root = new QTreeWidgetItem;   //添加第一个父节点
+         root->setText(0,query.value(1).toString());
+         rootList.append(root);
+         query2.exec("select * from TRessource where IdType ="+query.value(0).toString());
+         while(query2.next()){
+             root->addChild(new QTreeWidgetItem(root,QStringList(query2.value(1).toString())));
+         }
+    }
+    bd.Close_BD();
+    ui->treeWidget_ress->insertTopLevelItems(0,rootList);
+    ui->treeWidget_ress->expandAll();
+}
+
+void MainWindow::setWidget()
+{
+
+    ui->treeWidget_ress->setHeaderLabel("RESSOURCE");
     ui->lineEdit_search->setFocus();
     ui->tableWidget_resultat->setColumnCount(7);//设置列数
-    ui->tableWidget_resultat->setColumnWidth(0,90);
-    ui->tableWidget_resultat->setColumnWidth(1,200);
-    ui->tableWidget_resultat->setColumnWidth(2,200);
-    ui->tableWidget_resultat->setColumnWidth(3,200);
-    ui->tableWidget_resultat->setColumnWidth(4,100);
-    ui->tableWidget_resultat->setColumnWidth(5,70);
-    ui->tableWidget_resultat->setColumnWidth(6,70);
+//    ui->tableWidget_resultat->setColumnWidth(0,90);
+//    ui->tableWidget_resultat->setColumnWidth(1,200);
+//    ui->tableWidget_resultat->setColumnWidth(2,200);
+//    ui->tableWidget_resultat->setColumnWidth(3,200);
+//    ui->tableWidget_resultat->setColumnWidth(4,100);
+//    ui->tableWidget_resultat->setColumnWidth(5,70);
+//    ui->tableWidget_resultat->setColumnWidth(6,70);
 
 //    ui->tableWidget_resultat->setRowCount(5);//设置行数
     ui->tableWidget_resultat->setShowGrid(true);//显示表格线
     ui->tableWidget_resultat->setAlternatingRowColors(true);//设置隔行颜色，即一灰一白
-//    ui->tableWidget_resultat->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//设置平分每列
+    ui->tableWidget_resultat->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//设置平分每列
 //    ui->tableWidget_resultat->horizontalHeader()->setStretchLastSection(QHeaderView::Stretch);//设置最后一列补齐表格
     ui->tableWidget_resultat->setSelectionBehavior(QAbstractItemView::SelectRows);//设置整行选择
     ui->tableWidget_resultat->horizontalHeader()->setSectionsMovable(true);//设置列可移动
@@ -45,9 +75,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList header;
     header<<"Identification"<<"Nom"<<"Prénom"<<"Date Début"<<"Durée"<<"Modifier"<<"Supprimer";
     ui->tableWidget_resultat->setHorizontalHeaderLabels(header);
-
-    this->on_btn_search_clicked();
-
 }
 
 MainWindow::~MainWindow()
@@ -67,7 +94,12 @@ void MainWindow::on_actionPatient_triggered()
 
 void MainWindow::on_actionPersonnelSoin_triggered()
 {
-
+    AddPersonnelSoin d;
+    d.setWindowTitle("Ajouter");
+    if(d.exec()==QDialog::Accepted)
+    {
+        this->afficherRess();
+    }
 }
 
 void MainWindow::on_actionQuitter_triggered()
@@ -85,7 +117,7 @@ void MainWindow::on_btn_search_clicked()
     C_INIT_BD bd;
     bd.Join_BD();
     QSqlQuery query;
-
+    ui->statusBar->showMessage( tr("Search Button clicked"),2000);
     int numC=ui->tableWidget_resultat->rowCount();
     for(;numC>=0;numC--){
         ui->tableWidget_resultat->removeRow(numC);
@@ -99,7 +131,7 @@ void MainWindow::on_btn_search_clicked()
         if(!boo)
         {
             qDebug() << query.lastError().text();
-            qDebug() << "record in TPatient non delete !\n";
+            qDebug() << "can't find !\n";
         }
      }
     else
@@ -123,7 +155,7 @@ void MainWindow::on_btn_search_clicked()
         ui->tableWidget_resultat->setItem( i, 4, new QTableWidgetItem(query.value(9).toString()+" mn"));
 
         QLabel *modifier = new QLabel();
-        modifier->setText("  Modifier");
+        modifier->setText("      Modifier");
         modifier->setCursor(Qt::PointingHandCursor);
         QPalette pa;
         pa.setColor(QPalette::Text,Qt::blue);
@@ -132,7 +164,7 @@ void MainWindow::on_btn_search_clicked()
 
 
         QLabel *supprimer=new QLabel();
-        supprimer->setText(" Supprimer");
+        supprimer->setText("     Supprimer");
         supprimer->setCursor(Qt::PointingHandCursor);
         QPalette pa2;
         pa2.setColor(QPalette::Text,Qt::red);
@@ -147,8 +179,9 @@ void MainWindow::on_btn_search_clicked()
     bd.Close_BD();
 }
 
-void MainWindow:: modifierPatient(QModelIndex index){
-    QString id=ui->tableWidget_resultat->item(index.row(),0)->text();
+void MainWindow:: modifierPatient(QModelIndex index)
+{
+   QString id=ui->tableWidget_resultat->item(index.row(),0)->text();
    if(index.column()==5){
        AddPatient d(0,id);
        d.setWindowTitle("Modifier");
@@ -172,8 +205,78 @@ void MainWindow:: modifierPatient(QModelIndex index){
                 qDebug() << query.lastError().text();
                 qDebug() << "record in TPatient non delete !\n";
             }
+            boo=query.exec("delet from TConsult where IdPatient='"+id+"'");
+            if(!boo)
+            {
+                qDebug() << query.lastError().text();
+                qDebug() << "record in TConsult non delete !\n";
+            }
             bd.Close_BD();
             this->on_btn_search_clicked();
         }
    }
+}
+
+void MainWindow::on_pushButton_ModRess_clicked()
+{
+    QString id=this->getRessItemId();
+    if(id=="")return;
+    AddPersonnelSoin dlg(0,id);
+    dlg.setWindowTitle("Modifier");
+    if(dlg.exec()==QDialog::Accepted)
+    {
+        this->afficherRess();
+    }
+}
+
+void MainWindow::on_pushButton_SuppRess_clicked()
+{
+    QString id=this->getRessItemId();
+    if(id=="")return;
+    QMessageBox::StandardButton rb=QMessageBox::warning(this,tr("Warning"),("Do you want to delete this ressource?"),QMessageBox::Ok|QMessageBox::Cancel);
+    if (rb==QMessageBox::Ok)
+    {
+        C_INIT_BD bd;
+        bd.Join_BD();
+        QSqlQuery query;
+
+        bool boo;
+        boo=query.exec("delete from TRessource where Id='"+id+"'");
+        if(!boo)
+        {
+            qDebug() << query.lastError().text();
+            qDebug() << "record in TPatient non delete !\n";
+        }
+        boo=query.exec("delete from TCompte where IdRessource='"+id+"'");
+        if(!boo)
+        {
+            qDebug() << query.lastError().text();
+            qDebug() << "record in TPatient non delete !\n";
+        }
+        boo=query.exec("delete from TConsult where IdRessource='"+id+"'");
+        if(!boo)
+        {
+            qDebug() << query.lastError().text();
+            qDebug() << "record in TPatient non delete !\n";
+        }
+        bd.Close_BD();
+        this->afficherRess();
+    }
+}
+
+QString MainWindow::getRessItemId()//注意，此处查ID无法解决姓名重复问题
+{
+    QString id="";
+    if(ui->treeWidget_ress->currentItem()==NULL || ui->treeWidget_ress->currentItem()->parent()==NULL){
+        QMessageBox::warning(this,tr("Warning"),("Choisir une personnel de soins svp!!!"),QMessageBox::Ok);
+    }else{
+        C_INIT_BD bd;
+        bd.Join_BD();
+        QSqlQuery query;
+        query.exec("select Id from TRessource where Nom='"+ui->treeWidget_ress->currentItem()->text(0)+"'");
+        query.first();
+        id=query.value(0).toString();
+        bd.Close_BD();
+    }
+    return id;
 }

@@ -17,11 +17,7 @@ C_INIT_BD::~C_INIT_BD()
 bool C_INIT_BD::Creation_BD()
 {
     bool b_test;
-    QSqlDatabase db;
-    if(QSqlDatabase::contains("qt_sql_default_connection"))
-      db = QSqlDatabase::database("qt_sql_default_connection");
-    else
-      db = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlDatabase db= QSqlDatabase::addDatabase("QSQLITE");
 
     if(db.isValid())
     {
@@ -183,8 +179,8 @@ bool C_INIT_BD::Creation_BD()
             qDebug() << "Insertion de données dans TType impossible !\n";
             return false;
         }
-       db.close();
-       db.removeDatabase("QSQLITE");
+        db.close();
+        db.removeDatabase("QSQLITE");
         return true;
 
     }

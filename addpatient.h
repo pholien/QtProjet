@@ -26,6 +26,7 @@ private slots:
 
 private:
     Ui::AddPatient *ui;
+    bool checkInput();
     void setInfo(QString info);
     QString modID;
 };

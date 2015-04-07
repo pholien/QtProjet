@@ -10,9 +10,11 @@
 #include <QTableWidgetItem>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QList>
 
 #include "c_init_bd.h"
 #include "addpatient.h"
+#include "addpersonnelsoin.h"
 
 namespace Ui {
 class MainWindow;
@@ -39,8 +41,15 @@ private slots:
 
     void modifierPatient(QModelIndex);
 
+    void on_pushButton_ModRess_clicked();
+
+    void on_pushButton_SuppRess_clicked();
+
 private:
     Ui::MainWindow *ui;
+    void setWidget();
+    void afficherRess();
+    QString getRessItemId();
 };
 
 #endif // MAINWINDOW_H

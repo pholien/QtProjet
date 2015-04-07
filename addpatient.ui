@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
+    <width>447</width>
     <height>610</height>
    </rect>
   </property>
@@ -37,7 +37,7 @@
     <rect>
      <x>18</x>
      <y>395</y>
-     <width>371</width>
+     <width>411</width>
      <height>191</height>
     </rect>
    </property>
@@ -162,9 +162,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QDateTimeEdit" name="dateTimeEdit_date"/>
-    </item>
     <item row="7" column="0">
      <widget class="QLabel" name="label_duree">
       <property name="font">
@@ -240,10 +237,31 @@
       </property>
      </widget>
     </item>
+    <item row="6" column="1">
+     <widget class="QDateEdit" name="dateEdit_debut">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+       </font>
+      </property>
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>2000</year>
+        <month>1</month>
+        <day>1</day>
+       </datetime>
+      </property>
+      <property name="displayFormat">
+       <string>yyyy-MM-dd</string>
+      </property>
+     </widget>
+    </item>
    </layout>
    <zorder>lineEdit_priorite</zorder>
    <zorder>lineEdit_duree</zorder>
-   <zorder>dateTimeEdit_date</zorder>
    <zorder>lineEdit_adresse</zorder>
    <zorder>lineEdit_cp</zorder>
    <zorder>lineEdit_ville</zorder>
@@ -259,12 +277,13 @@
    <zorder>label_date</zorder>
    <zorder>label_duree</zorder>
    <zorder>label_priorite</zorder>
+   <zorder>dateEdit_debut</zorder>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>10</y>
+     <x>320</x>
+     <y>50</y>
      <width>91</width>
      <height>151</height>
     </rect>
@@ -320,6 +339,44 @@
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>310</y>
+     <width>151</width>
+     <height>47</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Ressource</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="comboBox_res">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <zorder>layoutWidget</zorder>
   <zorder>textEdit_commentaire</zorder>
   <zorder>label_commentaire</zorder>
   <zorder>layoutWidget</zorder>
@@ -332,9 +389,10 @@
   <tabstop>lineEdit_ville</tabstop>
   <tabstop>lineEdit_cp</tabstop>
   <tabstop>lineEdit_adresse</tabstop>
-  <tabstop>dateTimeEdit_date</tabstop>
+  <tabstop>dateEdit_debut</tabstop>
   <tabstop>lineEdit_duree</tabstop>
   <tabstop>lineEdit_priorite</tabstop>
+  <tabstop>comboBox_res</tabstop>
   <tabstop>textEdit_commentaire</tabstop>
   <tabstop>pushButton_submit</tabstop>
   <tabstop>pushButton_cencel</tabstop>

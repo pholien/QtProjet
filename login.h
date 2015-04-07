@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "ui_login.h"
 #include <QMessageBox>
-
+#include "c_init_bd.h"
 
 namespace Ui {
 class Login;
